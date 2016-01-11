@@ -18,5 +18,6 @@ int main () {
     if (pd==0) cout << "Null pointer on second type-cast.\n";
 
   } catch (exception& e) {cout << "Exception: " << e.what();}
+  cout<<"hi";
   return 0;
 }
