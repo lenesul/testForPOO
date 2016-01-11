@@ -1,27 +1,22 @@
-// explicit:
+#include <exception>
 #include <iostream>
 using namespace std;
 
-class A {};
+class Base { virtual void dummy() {} };
+class Derived: public Base { int a; };
 
-class B {
-public:
-  explicit B (const A& x) {}
-  B& operator= (const A& x) {return *this;}
-  operator A() {return A();}
-};
+int main () {
+  try {
+    Base * pba = new Derived;
+    Base * pbb = new Base;
+    Derived * pd;
 
-void fn (B x) {}
+    pd = dynamic_cast<Derived*>(pba);
+    if (pd==0) cout << "Null pointer on first type-cast.\n";
 
-int main ()
-{
-  A foo;
-  B bar (foo);
-  bar = foo;
-  foo = bar;
+    pd = dynamic_cast<Derived*>(pbb);
+    if (pd==0) cout << "Null pointer on second type-cast.\n";
 
-//  fn (foo);  // not allowed for explicit ctor.
-  fn (bar);
-
+  } catch (exception& e) {cout << "Exception: " << e.what();}
   return 0;
 }
